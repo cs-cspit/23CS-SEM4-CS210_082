@@ -9,7 +9,7 @@ export default function Header()
         </svg>
 
 
-          <span className="font-bold text-xl">airbnb</span>
+          
         </a>
 
         {/* Search bar */}
