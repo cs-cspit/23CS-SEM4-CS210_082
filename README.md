@@ -1,12 +1,16 @@
 Overview
 This project is a full-stack application designed for house rentals. It provides a seamless platform for users to browse, book, and manage rental properties with secure user authentication and dynamic property listings.
 
-Tech Stack
+Tech Stack:
 Frontend: React
+
 Backend: Node.js, Express
+
 Database: MongoDB
-Authentication: JSON Web Tokens (JWT)
-Features
+
+Authentication: JSON Web Tokens (JWT
+
+Features:
 User Authentication: Securely log in and manage user accounts.
 Property Listings: Browse detailed property listings including images, descriptions, and pricing.
 Booking System: Book rental properties directly through the platform.
