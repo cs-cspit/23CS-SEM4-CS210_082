@@ -5,11 +5,13 @@ import axios from "axios";
 import PlacesPage from "./PlacesPage";
 import AccountNav from "../AccountNav";
 import { useToast } from "../ToastContext";
+import { ThemeContext } from "../ThemeContext.jsx";
 
 export default function ProfilePage() {
   const [redirect, setRedirect] = useState(null);
   const { ready, user, setUser } = useContext(UserContext);
   const { addToast } = useToast();
+  const { isDarkMode } = useContext(ThemeContext);
   let { subpage } = useParams();
 
   if (subpage === undefined) {
@@ -44,7 +46,11 @@ export default function ProfilePage() {
     <div>
       <AccountNav />
       {subpage === "profile" && (
-        <div className="text-center max-w-lg mx-auto">
+        <div
+          className={`text-center max-w-lg mx-auto ${
+            isDarkMode ? "text-white" : ""
+          }`}
+        >
           Logged in as {user.name} ({user.email})<br />
           <button onClick={logout} className="primary max-w-sm mt-2">
             Logout

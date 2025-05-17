@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Image from "./Image.jsx";
+import { ThemeContext } from "./ThemeContext.jsx";
 
 export default function PlaceGallery({ place }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
+  const { isDarkMode } = useContext(ThemeContext);
 
   if (!place || !place.photos) {
     // Create a simplified gallery with default images
@@ -43,7 +45,9 @@ export default function PlaceGallery({ place }) {
             <h2 className="text-3xl mr-48">Photos of {place.title}</h2>
             <button
               onClick={() => setShowAllPhotos(false)}
-              className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black"
+              className={`fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black ${
+                isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +113,11 @@ export default function PlaceGallery({ place }) {
       </div>
       <button
         onClick={() => setShowAllPhotos(true)}
-        className="flex gap-1 absolute bottom-2 right-2 py-2 px-4 bg-white rounded-2xl shadow-md shadow-gray-500"
+        className={`flex gap-1 absolute bottom-2 right-2 py-2 px-4 rounded-2xl shadow-md ${
+          isDarkMode
+            ? "bg-gray-800 text-white shadow-black"
+            : "bg-white shadow-gray-500"
+        }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -1,10 +1,12 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import BookingWidget from "../BookingWidget";
 import PlaceGallery from "../PlaceGallery";
 import AddressLink from "../AddressLink";
 import StarRating from "../StarRating";
+import { ThemeContext } from "../ThemeContext";
+import PerkIcons from "../PerkIcons";
 // import PropertyMap from "../PropertyMap";
 
 export default function PlacePage() {
@@ -12,6 +14,7 @@ export default function PlacePage() {
   const [place, setPlace] = useState(null);
   const [rating, setRating] = useState({ averageRating: 0, count: 0 });
   const [loading, setLoading] = useState(true);
+  const { isDarkMode } = useContext(ThemeContext);
 
   useEffect(() => {
     if (!id) {
@@ -57,18 +60,36 @@ export default function PlacePage() {
   if (!place) return "";
 
   return (
-    <div className="mt-4 bg-gray-100 px-8 pt-8">
+    <div
+      className={`mt-4 px-8 pt-8 ${
+        isDarkMode ? "bg-black text-white" : "bg-gray-100"
+      }`}
+    >
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">{place.title}</h1>
+          <h1
+            className={`text-3xl font-bold ${
+              isDarkMode ? "text-white" : "text-gray-800"
+            }`}
+          >
+            {place.title}
+          </h1>
           <div className="flex items-center gap-2">
-            <AddressLink className="text-sm text-gray-400">
+            <AddressLink
+              className={`text-sm ${
+                isDarkMode ? "text-gray-300" : "text-gray-400"
+              }`}
+            >
               {place.address}
             </AddressLink>
             {rating.averageRating > 0 && (
               <div className="flex items-center gap-1">
                 <StarRating rating={Math.round(rating.averageRating)} />
-                <span className="text-sm font-medium">
+                <span
+                  className={`text-sm font-medium ${
+                    isDarkMode ? "text-white" : ""
+                  }`}
+                >
                   {rating.averageRating.toFixed(1)}
                 </span>
               </div>
@@ -78,34 +99,120 @@ export default function PlacePage() {
       </div>
       <PlaceGallery place={place} />
       <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr] lg:grid-cols-[3fr_1fr]">
-        <div>
+        <div className={isDarkMode ? "text-gray-200" : ""}>
           <div className="my-4">
-            <h2 className="font-semibold text-2xl">Description</h2>
+            <h2
+              className={`font-semibold text-2xl ${
+                isDarkMode ? "text-white" : ""
+              }`}
+            >
+              Description
+            </h2>
             {place.description}
           </div>
-          Check-in: {place.checkIn}
-          <br />
-          Check-out: {place.checkOut}
-          <br />
-          Max number of guests: {place.maxGuests}
+
+          {/* Property Perks */}
+          {place.perks && place.perks.length > 0 && (
+            <div className="my-4">
+              <h2
+                className={`font-semibold text-2xl mb-2 ${
+                  isDarkMode ? "text-white" : ""
+                }`}
+              >
+                What this place offers
+              </h2>
+              <PerkIcons
+                perks={place.perks}
+                className={`${
+                  isDarkMode
+                    ? "border-gray-700 text-gray-300"
+                    : "border-gray-300 text-gray-600"
+                }`}
+              />
+            </div>
+          )}
+
+          <div className="my-4">
+            <h2
+              className={`font-semibold text-2xl mb-2 ${
+                isDarkMode ? "text-white" : ""
+              }`}
+            >
+              Check-in Information
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div
+                className={`p-4 rounded-2xl ${
+                  isDarkMode ? "bg-gray-900" : "bg-white"
+                }`}
+              >
+                <div className="text-sm text-gray-500">Check-in</div>
+                <div className="text-lg">{place.checkIn}</div>
+              </div>
+              <div
+                className={`p-4 rounded-2xl ${
+                  isDarkMode ? "bg-gray-900" : "bg-white"
+                }`}
+              >
+                <div className="text-sm text-gray-500">Check-out</div>
+                <div className="text-lg">{place.checkOut}</div>
+              </div>
+              <div
+                className={`p-4 rounded-2xl ${
+                  isDarkMode ? "bg-gray-900" : "bg-white"
+                }`}
+              >
+                <div className="text-sm text-gray-500">Max guests</div>
+                <div className="text-lg">{place.maxGuests}</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <BookingWidget place={place} />
         </div>
       </div>
-      <div className="bg-white px-8 py-8 border-t">
+      <div
+        className={`px-8 py-8 border-t ${
+          isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white"
+        }`}
+      >
         <div>
-          <h2 className="font-semibold text-2xl">Extra info</h2>
+          <h2
+            className={`font-semibold text-2xl ${
+              isDarkMode ? "text-white" : ""
+            }`}
+          >
+            Extra info
+          </h2>
         </div>
-        <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
+        <div
+          className={`mb-4 mt-2 text-sm leading-5 ${
+            isDarkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
           {place.extraInfo}
         </div>
       </div>
-      <div className="bg-white px-8 py-8 border-t">
+      <div
+        className={`px-8 py-8 border-t ${
+          isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white"
+        }`}
+      >
         <div>
-          <h2 className="font-semibold text-2xl mb-4">Location</h2>
+          <h2
+            className={`font-semibold text-2xl mb-4 ${
+              isDarkMode ? "text-white" : ""
+            }`}
+          >
+            Location
+          </h2>
         </div>
-        {/* <PropertyMap address={place.address} /> */}
+        <iframe
+          src="https://www.google.co.in/maps/d/u/0/embed?mid=1WFPTf9ikwkvHXD71YzHUDd_-eTq-JT4&ehbc=2E312F&noprof=1"
+          width="1100"
+          height="480"
+        ></iframe>
       </div>
     </div>
   );

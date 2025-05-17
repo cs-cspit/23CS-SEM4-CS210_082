@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
 import AccountNav from "../AccountNav";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import PlaceImg from "../PlaceImg";
 import { useToast } from "../ToastContext";
+import { ThemeContext } from "../ThemeContext";
+import PerkIcons from "../PerkIcons";
 
 export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const { addToast } = useToast();
+  const { isDarkMode } = useContext(ThemeContext);
 
   async function fetchPlaces() {
     try {
@@ -75,18 +78,44 @@ export default function PlacesPage() {
             <div key={place._id} className="relative">
               <Link
                 to={"/account/places/" + place._id}
-                className="bg-gray-100 p-4 rounded-2xl flex flex-col h-full"
+                className={`p-4 rounded-2xl flex flex-col h-full ${
+                  isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100"
+                }`}
               >
-                <div className="bg-gray-300 rounded-2xl flex mb-2 h-48">
+                <div
+                  className={`rounded-2xl flex mb-2 h-48 ${
+                    isDarkMode ? "bg-gray-800" : "bg-gray-300"
+                  }`}
+                >
                   <PlaceImg place={place} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-800">
+                  <h2
+                    className={`text-xl font-bold ${
+                      isDarkMode ? "text-white" : "text-gray-800"
+                    }`}
+                  >
                     {place.title}
                   </h2>
-                  <p className="text-sm text-gray-400 mt-2 line-clamp-3">
+                  <p
+                    className={`text-sm mt-2 line-clamp-3 ${
+                      isDarkMode ? "text-gray-300" : "text-gray-400"
+                    }`}
+                  >
                     {place.description}
                   </p>
+
+                  {/* Display perks */}
+                  {place.perks && place.perks.length > 0 && (
+                    <PerkIcons
+                      perks={place.perks}
+                      className={`mt-2 ${
+                        isDarkMode
+                          ? "border-gray-700 text-gray-300"
+                          : "border-gray-300 text-gray-600"
+                      }`}
+                    />
+                  )}
                 </div>
                 <div className="mt-auto pt-2">
                   <div className="text-primary text-right font-bold">
@@ -118,7 +147,11 @@ export default function PlacesPage() {
           ))}
       </div>
       {places.length === 0 && (
-        <div className="text-center text-gray-500 mt-8">
+        <div
+          className={`text-center mt-8 ${
+            isDarkMode ? "text-gray-300" : "text-gray-500"
+          }`}
+        >
           You have no listings yet. Click "Add new place" to create one.
         </div>
       )}

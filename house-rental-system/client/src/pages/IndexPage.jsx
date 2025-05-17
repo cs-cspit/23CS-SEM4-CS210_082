@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Image from "../Image.jsx";
 import StarRating from "../StarRating.jsx";
+import { ThemeContext } from "../ThemeContext.jsx";
+import PerkIcons from "../PerkIcons.jsx";
 
 export default function IndexPage() {
   const [places, setPlaces] = useState([]);
   const [placeRatings, setPlaceRatings] = useState({});
   const [loading, setLoading] = useState(true);
+  const { isDarkMode } = useContext(ThemeContext);
 
   useEffect(() => {
     // Fetch all places
@@ -56,21 +59,46 @@ export default function IndexPage() {
             <Link
               key={place._id}
               to={"/place/" + place._id}
-              className="flex flex-col"
+              className={`flex flex-col rounded-2xl overflow-hidden ${
+                isDarkMode ? "bg-gray-900" : "bg-white"
+              } shadow-lg p-3`}
             >
-              <div className="bg-gray-500 mb-2 rounded-2xl flex h-48">
+              <div className="mb-2 rounded-2xl flex h-48">
                 <Image
                   className="rounded-2xl object-cover aspect-square w-full"
                   src={place.photos?.[0] || ""}
                   alt=""
                 />
               </div>
-              <h2 className="font-bold text-gray-800 text-lg">{place.title}</h2>
-              <h3 className="text-sm text-gray-400 truncate">
+              <h2
+                className={`font-bold text-lg ${
+                  isDarkMode ? "text-white" : "text-gray-800"
+                }`}
+              >
+                {place.title}
+              </h2>
+              <h3
+                className={`text-sm ${
+                  isDarkMode ? "text-gray-300" : "text-gray-400"
+                } truncate`}
+              >
                 {place.address}
               </h3>
-              <div className="mt-1 flex items-center justify-between">
-                <div>
+
+              {/* Perks */}
+              {place.perks && place.perks.length > 0 && (
+                <PerkIcons
+                  perks={place.perks}
+                  className={`mt-2 ${
+                    isDarkMode
+                      ? "border-gray-700 text-gray-300"
+                      : "border-gray-300 text-gray-600"
+                  }`}
+                />
+              )}
+
+              <div className="mt-auto pt-3 flex items-center justify-between">
+                <div className={isDarkMode ? "text-white" : ""}>
                   <span className="font-bold text-primary">₹{place.price}</span>{" "}
                   per night
                 </div>
@@ -79,7 +107,11 @@ export default function IndexPage() {
                     <StarRating
                       rating={Math.round(placeRatings[place._id].averageRating)}
                     />
-                    <span className="text-sm font-medium">
+                    <span
+                      className={`text-sm font-medium ${
+                        isDarkMode ? "text-white" : ""
+                      }`}
+                    >
                       {placeRatings[place._id].averageRating.toFixed(1)}
                     </span>
                   </div>
@@ -89,7 +121,11 @@ export default function IndexPage() {
           ))}
       </div>
       {places.length === 0 && !loading && (
-        <div className="text-center text-gray-500 mt-8">
+        <div
+          className={`text-center mt-8 ${
+            isDarkMode ? "text-gray-300" : "text-gray-500"
+          }`}
+        >
           No accommodations available at the moment.
         </div>
       )}

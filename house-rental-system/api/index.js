@@ -470,6 +470,35 @@ app.get('/api/bookings', async (req,res) => {
   res.json( await Booking.find({user:userData.id}).populate('place') );
 });
 
+// Delete a booking (cancel booking)
+app.delete('/api/bookings/:id', async (req, res) => {
+  try {
+    mongoose.connect(process.env.MONGO_URL);
+    const { id } = req.params;
+    const userData = await getUserDataFromReq(req);
+    
+    // Find the booking
+    const booking = await Booking.findById(id);
+    
+    // Check if booking exists and belongs to the user
+    if (!booking) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+    
+    if (booking.user.toString() !== userData.id) {
+      return res.status(403).json({ error: 'Not authorized to cancel this booking' });
+    }
+    
+    // Delete the booking
+    await Booking.findByIdAndDelete(id);
+    
+    res.json({ message: 'Booking cancelled successfully' });
+  } catch (err) {
+    console.error('Error cancelling booking:', err);
+    res.status(500).json({ error: 'Failed to cancel booking' });
+  }
+});
+
 app.get('/api/random-image', (req, res) => {
   const uploadsDir = path.join(__dirname, 'uploads');
   

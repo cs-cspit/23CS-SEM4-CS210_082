@@ -1,15 +1,17 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import AddressLink from "../AddressLink";
 import PlaceGallery from "../PlaceGallery";
 import BookingDates from "../BookingDates";
+import { ThemeContext } from "../ThemeContext";
 
 export default function BookingPage() {
   const { id } = useParams();
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState(null);
+  const { isDarkMode } = useContext(ThemeContext);
 
   useEffect(() => {
     // Check for payment success message in localStorage
@@ -56,12 +58,18 @@ export default function BookingPage() {
 
   if (loading) {
     return (
-      <div className="text-center my-8">Loading booking information...</div>
+      <div className={`text-center my-8 ${isDarkMode ? "text-white" : ""}`}>
+        Loading booking information...
+      </div>
     );
   }
 
   if (!booking) {
-    return <div className="text-center my-8">Booking not found.</div>;
+    return (
+      <div className={`text-center my-8 ${isDarkMode ? "text-white" : ""}`}>
+        Booking not found.
+      </div>
+    );
   }
 
   return (
@@ -72,14 +80,29 @@ export default function BookingPage() {
         </div>
       )}
 
-      <h1 className="text-3xl">{booking.place.title}</h1>
-      <AddressLink className="my-2 block">{booking.place.address}</AddressLink>
-      <div className="bg-gray-200 p-6 my-6 rounded-2xl flex flex-col md:flex-row gap-6">
+      <h1 className={`text-3xl ${isDarkMode ? "text-white" : ""}`}>
+        {booking.place.title}
+      </h1>
+      <AddressLink
+        className={`my-2 block ${isDarkMode ? "text-gray-300" : ""}`}
+      >
+        {booking.place.address}
+      </AddressLink>
+      <div
+        className={`p-6 my-6 rounded-2xl flex flex-col md:flex-row gap-6 ${
+          isDarkMode ? "bg-gray-900 text-white" : "bg-gray-200"
+        }`}
+      >
         <div className="flex-grow">
           <h2 className="text-2xl mb-4">Your booking information:</h2>
-          <BookingDates booking={booking} />
+          <BookingDates
+            booking={booking}
+            className={isDarkMode ? "text-gray-300" : "text-gray-700"}
+          />
 
-          <div className="mt-4 text-gray-700">
+          <div
+            className={`mt-4 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
+          >
             <div>
               <strong>Name:</strong> {booking.name}
             </div>
@@ -115,17 +138,25 @@ export default function BookingPage() {
         </div>
       </div>
 
-      <h2 className="text-2xl mt-8 mb-4">Property information</h2>
+      <h2 className={`text-2xl mt-8 mb-4 ${isDarkMode ? "text-white" : ""}`}>
+        Property information
+      </h2>
       <PlaceGallery place={booking.place} />
 
       <div className="mt-8 mb-4 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <h3 className="text-xl mb-2">Description</h3>
-          <div className="text-gray-700">{booking.place.description}</div>
+          <h3 className={`text-xl mb-2 ${isDarkMode ? "text-white" : ""}`}>
+            Description
+          </h3>
+          <div className={isDarkMode ? "text-gray-300" : "text-gray-700"}>
+            {booking.place.description}
+          </div>
         </div>
         <div>
-          <h3 className="text-xl mb-2">Check-in & Check-out</h3>
-          <div className="text-gray-700">
+          <h3 className={`text-xl mb-2 ${isDarkMode ? "text-white" : ""}`}>
+            Check-in & Check-out
+          </h3>
+          <div className={isDarkMode ? "text-gray-300" : "text-gray-700"}>
             <div>
               <strong>Check-in:</strong> {booking.place.checkIn}
             </div>

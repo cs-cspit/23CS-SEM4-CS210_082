@@ -4,6 +4,7 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "./UserContext.jsx";
 import PaymentForm from "./PaymentForm.jsx";
+import { ThemeContext } from "./ThemeContext.jsx";
 
 export default function BookingWidget({ place }) {
   const [checkIn, setCheckIn] = useState("");
@@ -16,6 +17,7 @@ export default function BookingWidget({ place }) {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [bookingData, setBookingData] = useState(null);
   const { user } = useContext(UserContext);
+  const { isDarkMode } = useContext(ThemeContext);
 
   useEffect(() => {
     if (user) {
@@ -109,12 +111,20 @@ export default function BookingWidget({ place }) {
   }
 
   return (
-    <div className="bg-white shadow p-4 rounded-2xl">
+    <div
+      className={`shadow p-4 rounded-2xl ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-white"
+      }`}
+    >
       <div className="text-2xl text-center">
         Price: <span className="text-primary font-bold">₹{place.price}</span> /
         per night
       </div>
-      <div className="border rounded-2xl mt-4">
+      <div
+        className={`border rounded-2xl mt-4 ${
+          isDarkMode ? "border-gray-700" : ""
+        }`}
+      >
         <div className="flex">
           <div className="py-3 px-4">
             <label>Check in:</label>
@@ -122,32 +132,54 @@ export default function BookingWidget({ place }) {
               type="date"
               value={checkIn}
               onChange={(ev) => setCheckIn(ev.target.value)}
+              className={
+                isDarkMode ? "bg-black text-white border-gray-700" : ""
+              }
             />
           </div>
-          <div className="py-3 px-4 border-l">
+          <div
+            className={`py-3 px-4 border-l ${
+              isDarkMode ? "border-gray-700" : ""
+            }`}
+          >
             <label>Check out:</label>
             <input
               type="date"
               value={checkOut}
               onChange={(ev) => setCheckOut(ev.target.value)}
+              className={
+                isDarkMode ? "bg-black text-white border-gray-700" : ""
+              }
             />
           </div>
         </div>
-        <div className="py-3 px-4 border-t">
+        <div
+          className={`py-3 px-4 border-t ${
+            isDarkMode ? "border-gray-700" : ""
+          }`}
+        >
           <label>Number of guests:</label>
           <input
             type="number"
             value={numberOfGuests}
             onChange={(ev) => setNumberOfGuests(ev.target.value)}
+            className={isDarkMode ? "bg-black text-white border-gray-700" : ""}
           />
         </div>
         {numberOfNights > 0 && (
-          <div className="py-3 px-4 border-t">
+          <div
+            className={`py-3 px-4 border-t ${
+              isDarkMode ? "border-gray-700" : ""
+            }`}
+          >
             <label>Your full name:</label>
             <input
               type="text"
               value={name}
               onChange={(ev) => setName(ev.target.value)}
+              className={
+                isDarkMode ? "bg-black text-white border-gray-700" : ""
+              }
             />
             <label>Phone number:</label>
             <input
@@ -155,6 +187,9 @@ export default function BookingWidget({ place }) {
               value={phone}
               onChange={(ev) => setPhone(ev.target.value)}
               required
+              className={
+                isDarkMode ? "bg-black text-white border-gray-700" : ""
+              }
             />
           </div>
         )}

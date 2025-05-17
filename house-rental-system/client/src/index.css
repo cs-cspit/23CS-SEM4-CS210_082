@@ -8,13 +8,71 @@ input[type="tel"],
 textarea{
     @apply w-full border my-1 py-2 px-3 rounded-2xl;
 }
+
+.dark input[type="text"],
+.dark input[type="password"],
+.dark input[type="email"],
+.dark input[type="number"],
+.dark input[type="tel"],
+.dark textarea{
+    @apply bg-black border-gray-700 text-white;
+}
+
 textarea{
     height: 140px;
 }
 button{
     @apply bg-gray-300;
 }
+.dark button{
+    @apply bg-gray-800 text-white border-gray-700;
+}
 button.primary{
     background-color: #F5385D;
     @apply bg-primary p-2 w-full text-white rounded-2xl;
+}
+
+/* Dark mode styles for property listings */
+.dark h2 {
+    @apply text-white;
+}
+
+.dark h3 {
+    @apply text-gray-300;
+}
+
+.dark p {
+    @apply text-gray-200;
+}
+
+.dark a {
+    @apply text-white;
+}
+
+.dark .border {
+    @apply border-gray-700;
+}
+
+.dark .bg-white {
+    @apply bg-black;
+}
+
+.dark .text-gray-800 {
+    @apply text-white;
+}
+
+.dark .text-gray-500 {
+    @apply text-gray-300;
+}
+
+.dark .text-gray-400 {
+    @apply text-gray-300;
+}
+
+.dark .shadow-gray-300 {
+    @apply shadow-gray-900;
+}
+
+.dark .bg-gray-300 {
+    @apply bg-gray-700;
 }

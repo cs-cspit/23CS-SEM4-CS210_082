@@ -1,4 +1,3 @@
-
 ```
 house-rental-system
 ├─ api
@@ -7,6 +6,7 @@ house-rental-system
 │  │  ├─ Booking.js
 │  │  ├─ Image.js
 │  │  ├─ Place.js
+│  │  ├─ Review.js
 │  │  └─ User.js
 │  ├─ package-lock.json
 │  ├─ package.json
@@ -15,6 +15,7 @@ house-rental-system
 ├─ client
 │  ├─ .env
 │  ├─ index.html
+│  ├─ package-lock.json
 │  ├─ package.json
 │  ├─ postcss.config.cjs
 │  ├─ public
@@ -43,16 +44,25 @@ house-rental-system
 │  │  │  ├─ PlacesPage.jsx
 │  │  │  ├─ ProfilePage.jsx
 │  │  │  └─ RegisterPage.jsx
+│  │  ├─ PaymentForm.jsx
+│  │  ├─ PerkIcons.jsx
 │  │  ├─ Perks.jsx
 │  │  ├─ PhotosUploader.jsx
 │  │  ├─ PlaceGallery.jsx
 │  │  ├─ PlaceImg.jsx
+│  │  ├─ PropertyMap.jsx
+│  │  ├─ Ratings.jsx
+│  │  ├─ Reviews.jsx
+│  │  ├─ StarRating.jsx
+│  │  ├─ ThemeContext.jsx
+│  │  ├─ ToastContext.jsx
 │  │  └─ UserContext.jsx
 │  ├─ tailwind.config.cjs
 │  ├─ vite.config.js
 │  └─ yarn.lock
 ├─ package-lock.json
 ├─ package.json
+├─ README.md
 ├─ vercel.json
 └─ yarn.lock
 
